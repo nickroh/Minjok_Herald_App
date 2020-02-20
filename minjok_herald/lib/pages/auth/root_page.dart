@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minjok_herald/pages/Home/mainpage.dart';
 import 'package:minjok_herald/pages/auth/login_signup_page.dart';
 import 'package:minjok_herald/pages/auth/authentication.dart';
 
@@ -80,9 +81,12 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return
-              _buildWaitingScreen();
-        } else return _buildWaitingScreen();
+          return new mainpage(
+            userId: _userId,
+            auth: widget.auth,
+            onSignedOut: _onSignedOut,
+            username: _username,
+          );} else return _buildWaitingScreen();
         break;
       default:
         return _buildWaitingScreen();
