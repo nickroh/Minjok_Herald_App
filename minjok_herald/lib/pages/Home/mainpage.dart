@@ -153,6 +153,18 @@ class _mainpageState extends State<mainpage>{
     );
   }
 
+  Widget main_page(){
+
+  }
+
+  Widget my_page(){
+
+  }
+
+  Widget press(){
+
+  }
+
   Widget setting_page(){
     return Scaffold(
       floatingActionButton: SpeedDial(
