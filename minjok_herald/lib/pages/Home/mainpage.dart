@@ -20,9 +20,11 @@ class mainpage extends StatefulWidget {
 class _mainpageState extends State<mainpage>{
 
   final Firestore database = Firestore.instance; // firebase 에서 데이터 로드
-  String activetag = 'main'; // default 페이지 main 그냥 로드
+//  String activetag = 'main'; // default 페이지 main 그냥 로드
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Stream news;
 
   bool _isEmailVerified = false;
   int selectedIndex = 0;
@@ -35,36 +37,10 @@ class _mainpageState extends State<mainpage>{
 
     _checkEmailVerification();
     _pageController = PageController();
+
+    getmainpage();
   }
 
-  void _queryDatabase({String tag = 'school'}) {
-
-    if(tag == 'me'){
-      Query query =
-      database.collection('stories').where('tags', arrayContains: CustomTag);
-      // Map the slides to the data payload
-      print(widget.tagusername);
-      slides =
-          query.snapshots().map((list) => list.documents.map((doc) => doc.data));
-      // Update the active tag
-      setState(() {
-        activeTag = tag;
-      });
-    }
-    else{
-      Query query =
-      database.collection('stories').where('tags', arrayContains: tag);
-      // Map the slides to the data payload
-      print(tag);
-      slides =
-          query.snapshots().map((list) => list.documents.map((doc) => doc.data));
-      // Update the active tag
-      setState(() {
-        activeTag = tag;
-      });
-    }
-
-  }
 
   void dispose() {
     _pageController.dispose();
@@ -199,35 +175,29 @@ class _mainpageState extends State<mainpage>{
 
   Widget main_page(){
     return Container(
-      child: FutureBuilder(
-          future: _data,
-          builder: (_, snapshot){
-
-            if(snapshot.connectionState == ConnectionState.waiting){
-              return _buildWaitingScreen();
-            } else{
-
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (_, index){
-
-                    return Card(
-                      child: ListTile(
-                          title: Text(snapshot.data[index].data['title']),
-                          onTap: () {
-                            navigateToDetail(snapshot.data[index], widget.pagetitle, snapshot.data[index].documentID);
-
-                          }
-                      ),
-                    );
-
-                  });
-            }
-          }),
+      child: new RefreshIndicator(
+        onRefresh: _refresh_mainpage,
+      )
     );
   }
 
+  Future _refresh_mainpage() async {
+    await getmainpage();
+    setState(() {
 
+    });
+  }
+
+  Future getmainpage() async{
+    Query query =
+        database.collection('news').where('tags', arrayContains: 'main');
+
+    news = query.snapshots().map((list) => list.documents.map((doc)=> doc.data));
+
+    setState(() {
+
+    });
+  }
 
   Widget setting_page(){
     return Scaffold(
