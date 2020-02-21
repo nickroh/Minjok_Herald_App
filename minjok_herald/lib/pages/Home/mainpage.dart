@@ -2,7 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:minjok_herald/pages/auth/authentication.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class mainpage extends StatefulWidget {
   mainpage({Key key, this.auth, this.userId, this.onSignedOut, this.username})
@@ -19,6 +19,9 @@ class mainpage extends StatefulWidget {
 
 class _mainpageState extends State<mainpage>{
 
+  final Firestore database = Firestore.instance; // firebase 에서 데이터 로드
+  String activetag = 'main'; // default 페이지 main 그냥 로드
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   bool _isEmailVerified = false;
@@ -33,6 +36,36 @@ class _mainpageState extends State<mainpage>{
     _checkEmailVerification();
     _pageController = PageController();
   }
+
+  void _queryDatabase({String tag = 'school'}) {
+
+    if(tag == 'me'){
+      Query query =
+      database.collection('stories').where('tags', arrayContains: CustomTag);
+      // Map the slides to the data payload
+      print(widget.tagusername);
+      slides =
+          query.snapshots().map((list) => list.documents.map((doc) => doc.data));
+      // Update the active tag
+      setState(() {
+        activeTag = tag;
+      });
+    }
+    else{
+      Query query =
+      database.collection('stories').where('tags', arrayContains: tag);
+      // Map the slides to the data payload
+      print(tag);
+      slides =
+          query.snapshots().map((list) => list.documents.map((doc) => doc.data));
+      // Update the active tag
+      setState(() {
+        activeTag = tag;
+      });
+    }
+
+  }
+
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -107,7 +140,6 @@ class _mainpageState extends State<mainpage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Minjok Herald")),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -115,9 +147,9 @@ class _mainpageState extends State<mainpage>{
             setState(() => currentIndex = index);
           },
           children: <Widget>[
-            Container(color: Colors.blueGrey,),
-            Container(color: Colors.red,),
-            Container(color: Colors.green,),
+            Container(color: Colors.white,),
+            Container(color: Colors.white,),
+            Container(color: Colors.white,),
             setting_page()
           ],
         ),
@@ -152,21 +184,56 @@ class _mainpageState extends State<mainpage>{
       ),
     );
   }
+  Container article_list(){
+
+  }
+
+  Widget _buildWaitingScreen() {
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
 
   Widget main_page(){
+    return Container(
+      child: FutureBuilder(
+          future: _data,
+          builder: (_, snapshot){
 
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return _buildWaitingScreen();
+            } else{
+
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, index){
+
+                    return Card(
+                      child: ListTile(
+                          title: Text(snapshot.data[index].data['title']),
+                          onTap: () {
+                            navigateToDetail(snapshot.data[index], widget.pagetitle, snapshot.data[index].documentID);
+
+                          }
+                      ),
+                    );
+
+                  });
+            }
+          }),
+    );
   }
 
-  Widget my_page(){
 
-  }
-
-  Widget press(){
-
-  }
 
   Widget setting_page(){
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Setting'),
+      ),
       floatingActionButton: SpeedDial(
         // both default to 16
         marginRight: 18,
