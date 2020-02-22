@@ -192,7 +192,9 @@ class _mainpageState extends State<mainpage>{
     Query query =
         database.collection('news').where('tags', arrayContains: 'main');
 
-    news = query.snapshots().map((list) => list.documents.map((doc)=> doc.data));
+     news = query.snapshots().map((list) => list.documents.map((doc)=> doc.data));
+
+    print(news);
 
     setState(() {
 
