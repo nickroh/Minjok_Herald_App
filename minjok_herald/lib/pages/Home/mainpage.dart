@@ -1,5 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:minjok_herald/main.dart';
+import 'dart:async';
 import 'package:minjok_herald/pages/auth/authentication.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,7 +26,9 @@ class _mainpageState extends State<mainpage>{
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  Stream news;
+  Stream maindata;
+  Future pressdata;
+  Future mydata;
 
   bool _isEmailVerified = false;
   int selectedIndex = 0;
@@ -38,7 +42,9 @@ class _mainpageState extends State<mainpage>{
     _checkEmailVerification();
     _pageController = PageController();
 
-    getmainpage();
+    maindata = getDeviceName();
+    pressdata = getpress();
+    mydata = getmypage();
   }
 
 
@@ -123,7 +129,7 @@ class _mainpageState extends State<mainpage>{
             setState(() => currentIndex = index);
           },
           children: <Widget>[
-            Container(color: Colors.white,),
+            main_page(),
             Container(color: Colors.white,),
             Container(color: Colors.white,),
             setting_page()
@@ -173,33 +179,72 @@ class _mainpageState extends State<mainpage>{
     );
   }
 
+ Future getmain() async{
+
+   var firestore = Firestore.instance;
+
+   QuerySnapshot qn = await firestore.collection('news').where('tags',arrayContains: 'main').orderBy('timestamp').getDocuments();
+
+   return qn.documents;
+
+  }
+  Stream<QuerySnapshot> getDeviceName() {
+    var firestore = Firestore.instance;
+    return firestore.collection('news').where('tags', arrayContains: 'main').snapshots();
+  }
+
+  Future getpress() async{
+
+    var firestore = Firestore.instance;
+
+    QuerySnapshot qn = await firestore.collection('news').where('tags',arrayContains: 'press').orderBy('timestamp').getDocuments();
+
+    return qn.documents;
+
+  }
+  Future getmypage() async{
+
+    var firestore = Firestore.instance;
+
+    QuerySnapshot qn = await firestore.collection('news').where('tags',arrayContains: 'my').orderBy('timestamp').getDocuments();
+
+    return qn.documents;
+
+  }
+  @override
   Widget main_page(){
     return Container(
-      child: new RefreshIndicator(
-        onRefresh: _refresh_mainpage,
-      )
-    );
+      child: StreamBuilder(
+          stream: maindata,
+          builder: (_, snapshot){
+
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return _buildWaitingScreen();
+            } else if(snapshot.hasData){
+
+              return ListView.builder(
+                 // itemCount: snapshot.data.length,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (_, index){
+
+                    return Card(
+                      child: ListTile(
+                          title: Text(snapshot.data[index].data['title']),
+                          onTap: () {
+
+
+                          }
+                      ),
+                    );
+
+                  });
+            }else{
+              return _buildWaitingScreen();
+            }
+          }),
+   );
   }
 
-  Future _refresh_mainpage() async {
-    await getmainpage();
-    setState(() {
-
-    });
-  }
-
-  Future getmainpage() async{
-    Query query =
-        database.collection('news').where('tags', arrayContains: 'main');
-
-     news = query.snapshots().map((list) => list.documents.map((doc)=> doc.data));
-
-    print(news);
-
-    setState(() {
-
-    });
-  }
 
   Widget setting_page(){
     return Scaffold(
@@ -242,7 +287,7 @@ class _mainpageState extends State<mainpage>{
             backgroundColor: Colors.blue,
             label: 'Second',
             labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print('SECOND CHILD'),
+            onTap: () => print(maindata),
           ),
           SpeedDialChild(
               child: Icon(Icons.clear),
