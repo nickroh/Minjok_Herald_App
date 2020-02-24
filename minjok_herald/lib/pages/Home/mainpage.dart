@@ -1,6 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:minjok_herald/main.dart';
+import 'package:minjok_herald/pages/Home/Listview.dart';
 import 'dart:async';
 import 'package:minjok_herald/pages/auth/authentication.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -214,32 +214,20 @@ class _mainpageState extends State<mainpage>{
   @override
   Widget main_page(){
     return Container(
+      padding: EdgeInsets.only(top: 10),
       child: StreamBuilder(
           stream: maindata,
-          builder: (_, snapshot){
+          builder: (context, snapshot){
 
-            if(snapshot.connectionState == ConnectionState.waiting){
+            if(!snapshot.hasData){
               return _buildWaitingScreen();
-            } else if(snapshot.hasData){
+            } else{
+              List<DocumentSnapshot> documents = snapshot.data.documents;
 
-              return ListView.builder(
-                 // itemCount: snapshot.data.length,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (_, index){
-
-                    return Card(
-                      child: ListTile(
-                          title: Text(snapshot.data[index].data['title']),
-                          onTap: () {
-
-
-                          }
-                      ),
-                    );
-
-                  });
-            }else{
-              return _buildWaitingScreen();
+              return ListView(
+                padding:EdgeInsets.only(top: 20.0),
+                children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+              );
             }
           }),
    );
