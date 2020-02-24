@@ -8,24 +8,32 @@ class DocumentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+      height: 150,
+      child: Card(
+        elevation: 3,
+        color: Color.fromRGBO(255, 255, 255, 1.0),
+//        decoration: BoxDecoration(
+//          border: Border.all(color: Colors.grey),
+//          borderRadius: BorderRadius.circular(5.0),
+//        ),
+        child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+        print('Card tapped.');
+        },
         child: ListTile(
           title: Text(documentData.data["title"]),
           subtitle: Row(
             children: <Widget>[
-              Text(documentData.data["price"].toString()),
+//              Text(documentData.data["price"].toString()),
               SizedBox(width: 10, height: 10),
-              Text(documentData.data["purchase?"].toString()),
+//              Text(documentData.data["purchase?"].toString()),
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

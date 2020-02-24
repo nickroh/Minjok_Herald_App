@@ -27,7 +27,7 @@ class _mainpageState extends State<mainpage>{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Stream maindata;
-  Future pressdata;
+  Stream pressdata;
   Future mydata;
 
   bool _isEmailVerified = false;
@@ -42,9 +42,9 @@ class _mainpageState extends State<mainpage>{
     _checkEmailVerification();
     _pageController = PageController();
 
-    maindata = getDeviceName();
+    maindata = getmain();
     pressdata = getpress();
-    mydata = getmypage();
+
   }
 
 
@@ -131,7 +131,7 @@ class _mainpageState extends State<mainpage>{
           children: <Widget>[
             main_page(),
             Container(color: Colors.white,),
-            Container(color: Colors.white,),
+            press_page(),
             setting_page()
           ],
         ),
@@ -179,42 +179,22 @@ class _mainpageState extends State<mainpage>{
     );
   }
 
- Future getmain() async{
 
-   var firestore = Firestore.instance;
-
-   QuerySnapshot qn = await firestore.collection('news').where('tags',arrayContains: 'main').orderBy('timestamp').getDocuments();
-
-   return qn.documents;
-
-  }
-  Stream<QuerySnapshot> getDeviceName() {
+  Stream<QuerySnapshot> getmain() {
     var firestore = Firestore.instance;
-    return firestore.collection('news').where('tags', arrayContains: 'main').snapshots();
+    return firestore.collection('news').where('tags', arrayContains: 'main').orderBy('timestamp').limit(30).snapshots();
   }
 
-  Future getpress() async{
-
-    var firestore = Firestore.instance;
-
-    QuerySnapshot qn = await firestore.collection('news').where('tags',arrayContains: 'press').orderBy('timestamp').getDocuments();
-
-    return qn.documents;
-
+  Stream<QuerySnapshot> getpress() {
+    var firestore1 = Firestore.instance;
+    return firestore1.collection('news').where('tags', arrayContains: 'press').orderBy('timestamp').limit(30).snapshots();
   }
-  Future getmypage() async{
 
-    var firestore = Firestore.instance;
 
-    QuerySnapshot qn = await firestore.collection('news').where('tags',arrayContains: 'my').orderBy('timestamp').getDocuments();
-
-    return qn.documents;
-
-  }
   @override
   Widget main_page(){
     return Container(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 15.0),
       child: StreamBuilder(
           stream: maindata,
           builder: (context, snapshot){
@@ -231,6 +211,27 @@ class _mainpageState extends State<mainpage>{
             }
           }),
    );
+  }
+
+  Widget press_page(){
+    return Container(
+      padding: EdgeInsets.only(top: 15.0),
+      child: StreamBuilder(
+          stream: pressdata,
+          builder: (context, snapshot){
+
+            if(!snapshot.hasData){
+              return _buildWaitingScreen();
+            } else{
+              List<DocumentSnapshot> documents = snapshot.data.documents;
+
+              return ListView(
+                padding:EdgeInsets.only(top: 20.0),
+                children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+              );
+            }
+          }),
+    );
   }
 
 
