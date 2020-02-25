@@ -194,47 +194,133 @@ class _mainpageState extends State<mainpage>{
   @override
   Widget main_page(){
 
-    return new Container(
-      padding: EdgeInsets.all(16),
-      child: new Stack(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 30.0),
-            child: RichText(
-              text: TextSpan(
-                text: 'Minjok Herald ',
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
+    return new Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                floating: false,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text("Minjok Herald",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                        )),
+                    background: Image.network(
+                      "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      fit: BoxFit.cover,
+                    )),
+              ),
+            ];
+          },
+          body: Container(
+            padding: EdgeInsets.all(16),
+            child: new Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'Minjok Herald ',
+                        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
 //                children: <TextSpan>[
 //                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
 //                  TextSpan(text: ' world!'),
 //                ],
-               ),
+                    ),
+                  ),
+
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 70.0),
+                  child: StreamBuilder(
+                      stream: maindata,
+                      builder: (context, snapshot){
+
+                        if(!snapshot.hasData){
+                          return _buildWaitingScreen();
+                        } else{
+                          List<DocumentSnapshot> documents = snapshot.data.documents;
+
+                          return ListView(
+                            padding:EdgeInsets.only(top: 20.0),
+                            children:
+                            documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+                          );
+                        }
+                      }),
+                ),
+              ],
             ),
 
           ),
-          Container(
-            padding: EdgeInsets.only(top: 70.0),
-            child: StreamBuilder(
-                stream: maindata,
-                builder: (context, snapshot){
-
-                  if(!snapshot.hasData){
-                    return _buildWaitingScreen();
-                  } else{
-                    List<DocumentSnapshot> documents = snapshot.data.documents;
-
-                    return ListView(
-                      padding:EdgeInsets.only(top: 20.0),
-                      children:
-                      documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
-                    );
-                  }
-                }),
           ),
-        ],
-      ),
+        );
 
-    );
+
+//    return new Scaffold(
+//      body: CustomScrollView(
+//        slivers: <Widget>[
+//          SliverAppBar(
+//            expandedHeight: 200.0,
+//            floating: false,
+//            pinned: true,
+//            flexibleSpace: FlexibleSpaceBar(
+//              title: Text('Minjok Herald'),
+//              background: Image.network('https://wallpaperset.com/w/full/4/9/8/29756.jpg',
+//              fit: BoxFit.cover,),
+//            ),
+//          ),
+//          SliverFillRemaining(
+//            child: new Container(
+//              padding: EdgeInsets.all(16),
+//              child: new Stack(
+//                children: <Widget>[
+//                  Container(
+//                    padding: EdgeInsets.only(top: 30.0),
+//                    child: RichText(
+//                      text: TextSpan(
+//                          text: 'Minjok Herald ',
+//                          style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
+////                children: <TextSpan>[
+////                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
+////                  TextSpan(text: ' world!'),
+////                ],
+//                      ),
+//                    ),
+//
+//                  ),
+//                  Container(
+//                    padding: EdgeInsets.only(top: 70.0),
+//                    child: StreamBuilder(
+//                        stream: maindata,
+//                        builder: (context, snapshot){
+//
+//                          if(!snapshot.hasData){
+//                            return _buildWaitingScreen();
+//                          } else{
+//                            List<DocumentSnapshot> documents = snapshot.data.documents;
+//
+//                            return ListView(
+//                              padding:EdgeInsets.only(top: 20.0),
+//                              children:
+//                              documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+//                            );
+//                          }
+//                        }),
+//                  ),
+//                ],
+//              ),
+//
+//            ),
+//          )
+//        ],
+//      ),
+//    );
+
   }
 
   Widget press_page(){
