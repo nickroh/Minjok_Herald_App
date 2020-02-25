@@ -193,24 +193,48 @@ class _mainpageState extends State<mainpage>{
 
   @override
   Widget main_page(){
-    return Container(
-      padding: EdgeInsets.only(top: 15.0),
-      child: StreamBuilder(
-          stream: maindata,
-          builder: (context, snapshot){
 
-            if(!snapshot.hasData){
-              return _buildWaitingScreen();
-            } else{
-              List<DocumentSnapshot> documents = snapshot.data.documents;
+    return new Container(
+      padding: EdgeInsets.all(16),
+      child: new Stack(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 30.0),
+            child: RichText(
+              text: TextSpan(
+                text: 'Minjok Herald ',
+                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
+//                children: <TextSpan>[
+//                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
+//                  TextSpan(text: ' world!'),
+//                ],
+               ),
+            ),
 
-              return ListView(
-                padding:EdgeInsets.only(top: 20.0),
-                children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
-              );
-            }
-          }),
-   );
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 70.0),
+            child: StreamBuilder(
+                stream: maindata,
+                builder: (context, snapshot){
+
+                  if(!snapshot.hasData){
+                    return _buildWaitingScreen();
+                  } else{
+                    List<DocumentSnapshot> documents = snapshot.data.documents;
+
+                    return ListView(
+                      padding:EdgeInsets.only(top: 20.0),
+                      children:
+                      documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+                    );
+                  }
+                }),
+          ),
+        ],
+      ),
+
+    );
   }
 
   Widget press_page(){

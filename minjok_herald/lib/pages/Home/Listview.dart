@@ -9,10 +9,15 @@ class DocumentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       height: 150,
+
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
         elevation: 3,
+
         color: Color.fromRGBO(255, 255, 255, 1.0),
 //        decoration: BoxDecoration(
 //          border: Border.all(color: Colors.grey),
@@ -24,7 +29,13 @@ class DocumentView extends StatelessWidget {
         print('Card tapped.');
         },
         child: ListTile(
-          title: Text(documentData.data["title"]),
+          title: Text(
+              documentData.data["title"],
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w400),
+          ),
+
+
+
           subtitle: Row(
             children: <Widget>[
 //              Text(documentData.data["price"].toString()),
