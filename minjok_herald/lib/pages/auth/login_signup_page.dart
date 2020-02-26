@@ -222,10 +222,17 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
       tag: 'hero',
       child: Padding(
         padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/medium-icon-white-on-black.png'),
+        child: Container(
+          height: 160.0,
+          width: 100.0,
+          decoration: new BoxDecoration(
+            image: DecorationImage(
+              image: new AssetImage(
+                  'assets/test.png'),
+              fit: BoxFit.fitHeight,
+            ),
+            shape: BoxShape.rectangle,
+          ),
         ),
       ),
     );

@@ -9,7 +9,7 @@ class DocumentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
       height: 150,
 
       child: Card(
