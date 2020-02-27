@@ -43,7 +43,6 @@ class DocumentView extends StatelessWidget {
                             fontSize: 17.5, fontWeight: FontWeight.w400),
                       ),
 
-
                     ),
                   ],
                 ),
