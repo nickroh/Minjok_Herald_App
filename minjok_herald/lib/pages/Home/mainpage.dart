@@ -145,18 +145,18 @@ class _mainpageState extends State<mainpage>{
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-              title: Text('Main'),
-              icon: Icon(Icons.home),
+              title: Text('Legislative'),
+              icon: Icon(Icons.check),
               activeColor: Colors.red
           ),
           BottomNavyBarItem(
-              title: Text('Me'),
-              icon: Icon(Icons.apps),
+              title: Text('Judicial'),
+              icon: Icon(Icons.check),
               activeColor: Colors.green
           ),
           BottomNavyBarItem(
-              title: Text('Press'),
-              icon: Icon(Icons.chat_bubble),
+              title: Text('Executive'),
+              icon: Icon(Icons.check),
               activeColor: Colors.blue
           ),
           BottomNavyBarItem(
@@ -211,15 +211,20 @@ class _mainpageState extends State<mainpage>{
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
-                      title: Text("Minjok Herald",
+                      title: Text("Press 2020-1",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500
                           )),
                       background: Image.network(
-                        "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                        "https://blog.malwarebytes.com/wp-content/uploads/2019/12/Washington-DC-Capitol-building-900x506.jpg",
                         fit: BoxFit.cover,
                       )
+//                        background: Image.asset(
+//                          'assets/test.png',
+//                          fit: BoxFit.cover,
+//                        ),
                   ),
 
                 ),
