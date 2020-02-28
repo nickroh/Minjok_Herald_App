@@ -23,6 +23,7 @@ class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
   String _userId = "";
   String _username;
+  String _userEmail;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _RootPageState extends State<RootPage> {
         if (user != null) {
           _userId = user?.uid;
           _username = user?.displayName;
+          _userEmail = user?.email;
         }
         authStatus =
         user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
@@ -86,6 +88,7 @@ class _RootPageState extends State<RootPage> {
             auth: widget.auth,
             onSignedOut: _onSignedOut,
             username: _username,
+            userEmail: _userEmail
           );} else return _buildWaitingScreen();
         break;
       default:

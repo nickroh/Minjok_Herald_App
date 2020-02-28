@@ -7,13 +7,14 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class mainpage extends StatefulWidget {
-  mainpage({Key key, this.auth, this.userId, this.onSignedOut, this.username})
+  mainpage({Key key, this.auth, this.userId, this.onSignedOut, this.username, this.userEmail})
       : super(key: key);
 
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
   final String username;
+  final String userEmail;
 
   @override
   State<StatefulWidget> createState() => new _mainpageState();
@@ -195,71 +196,125 @@ class _mainpageState extends State<mainpage>{
   Widget main_page(){
 
     return new Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 200.0,
-                floating: false,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text("Minjok Herald",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )),
-                    background: Image.network(
-                      "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                      fit: BoxFit.cover,
-                    )),
+        body: SafeArea(
 
-              ),
-            ];
-          },
-          body: Container(
-            padding: EdgeInsets.all(16),
-            child: new Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 30.0),
-                  child: RichText(
-                    text: TextSpan(
-                        text: 'Minjok Herald ',
-                        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
-//                children: <TextSpan>[
-//                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
-//                  TextSpan(text: ' world!'),
-//                ],
-                    ),
+          child:NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+//                  leading: IconButton(
+//                      icon: Icon(Icons.menu),
+//                      onPressed: null
+//                  ),
+                  expandedHeight: 200.0,
+                  floating: true,
+                  pinned: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Text("Minjok Herald",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          )),
+                      background: Image.network(
+                        "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                        fit: BoxFit.cover,
+                      )
                   ),
 
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 70.0),
-                  child: StreamBuilder(
-                      stream: maindata,
-                      builder: (context, snapshot){
 
-                        if(!snapshot.hasData){
-                          return _buildWaitingScreen();
-                        } else{
-                          List<DocumentSnapshot> documents = snapshot.data.documents;
+              ];
 
-                          return ListView(
-                            padding:EdgeInsets.only(top: 20.0),
-                            children:
-                            documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
-                          );
-                        }
-                      }),
-                ),
-              ],
+            },
+            body: Container(
+              padding: EdgeInsets.all(16),
+              child: new Stack(
+                children: <Widget>[
+                  Container(
+//                  padding: EdgeInsets.only(top: 30.0),
+//                  child: RichText(
+//                    text: TextSpan(
+//                        text: 'Minjok Herald ',
+//                        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
+////                children: <TextSpan>[
+////                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
+////                  TextSpan(text: ' world!'),
+////                ],
+//                    ),
+//                  ),
+
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 0.0),
+                    child: StreamBuilder(
+                        stream: maindata,
+                        builder: (context, snapshot){
+
+                          if(!snapshot.hasData){
+                            return _buildWaitingScreen();
+                          } else{
+                            List<DocumentSnapshot> documents = snapshot.data.documents;
+
+                            return ListView(
+                              padding:EdgeInsets.only(top: 20.0),
+                              children:
+                              documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+                            );
+                          }
+                        }),
+                  ),
+                ],
+              ),
+
             ),
+          ),
+
 
           ),
-          ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: new Text(
+                widget.username
+              ),
+              accountEmail: new Text(
+                  widget.userEmail,
+
+                  style: new TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
+              )
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
         );
+
 
 
 //    return new Scaffold(
@@ -403,4 +458,28 @@ class _mainpageState extends State<mainpage>{
     );
   }
 
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new Container(
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
+  }
 }
