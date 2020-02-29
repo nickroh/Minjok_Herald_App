@@ -29,7 +29,7 @@ class _mainpageState extends State<mainpage>{
 
   Stream maindata;
   Stream pressdata;
-  Future mydata;
+  Stream mydata;
 
   bool _isEmailVerified = false;
   int selectedIndex = 0;
@@ -45,6 +45,7 @@ class _mainpageState extends State<mainpage>{
 
     maindata = getmain();
     pressdata = getpress();
+    mydata = getmydata();
 
   }
 
@@ -191,6 +192,11 @@ class _mainpageState extends State<mainpage>{
     return firestore1.collection('news').where('tags', arrayContains: 'press').orderBy('timestamp').limit(30).snapshots();
   }
 
+  Stream<QuerySnapshot> getmydata() {
+    var firestore1 = Firestore.instance;
+    return firestore1.collection('news').where('tags', arrayContains: 'press').orderBy('timestamp').limit(30).snapshots();
+  }
+
 
   @override
   Widget main_page(){
@@ -233,7 +239,7 @@ class _mainpageState extends State<mainpage>{
 
             },
             body: Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(3),
               child: new Stack(
                 children: <Widget>[
                   Container(
@@ -277,15 +283,15 @@ class _mainpageState extends State<mainpage>{
 
 
           ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
+      drawer:Drawer(
+        // column holds all the widgets in the drawer
+        child: Column(
           children: <Widget>[
-            UserAccountsDrawerHeader(
+            Expanded(
+              // ListView contains a group of widgets that scroll inside the drawer
+              child: ListView(
+                children: <Widget>[
+                UserAccountsDrawerHeader(
               accountName: new Text(
                 widget.username
               ),
@@ -315,13 +321,151 @@ class _mainpageState extends State<mainpage>{
                 Navigator.pop(context);
               },
             ),
+                ],
+              ),
+            ),
+            // This container holds the align
+            Container(
+              // This align moves the children to the bottom
+                child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    // This container holds all the children that will be aligned
+                    // on the bottom and should not scroll with the above ListView
+                    child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Divider(),
+                            ListTile(
+                                leading: Icon(Icons.cancel),
+                                title: Text('Log Out'),
+
+                                onTap: (){
+                                  _signOut();
+                                }
+                            ),
+
+
+                            ListTile(
+                                leading: Icon(Icons.help),
+                                title: Text('Help and Feedback'))
+                          ],
+                        )
+                    )
+                )
+            )
           ],
         ),
-      ),
+      )
+ //     Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+//        child: ListView(
+//          // Important: Remove any padding from the ListView.
+//          padding: EdgeInsets.zero,
+//          children: <Widget>[
+//
+//            UserAccountsDrawerHeader(
+//              accountName: new Text(
+//                widget.username
+//              ),
+//              accountEmail: new Text(
+//                  widget.userEmail,
+//
+//                  style: new TextStyle(
+//                    fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
+//              )
+//              ),
+//            ),
+//            ListTile(
+//              title: Text('Item 1'),
+//              onTap: () {
+//                // Update the state of the app
+//                // ...
+//                // Then close the drawer
+//                Navigator.pop(context);
+//              },
+//            ),
+//            ListTile(
+//              title: Text('Item 2'),
+//              onTap: () {
+//                // Update the state of the app
+//                // ...
+//                // Then close the drawer
+//                Navigator.pop(context);
+//              },
+//            ),
+//
+//          ],
+//        ),
+//
+
+//        ),
         );
 
 
 
+  }
+
+  Widget press_page(){
+    return Container(
+      padding: EdgeInsets.only(top: 15.0),
+      child: StreamBuilder(
+          stream: pressdata,
+          builder: (context, snapshot){
+
+            if(!snapshot.hasData){
+              return _buildWaitingScreen();
+            } else{
+              List<DocumentSnapshot> documents = snapshot.data.documents;
+
+              return ListView(
+                padding:EdgeInsets.only(top: 20.0),
+                children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+              );
+            }
+          }),
+    );
+  }
+
+
+  Widget setting_page(){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Customize'),
+      ),
+//
+    );
+  }
+
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new Container(
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
+  }
+}
+
+
+// mainpage 위젯 폐기물
 //    return new Scaffold(
 //      body: CustomScrollView(
 //        slivers: <Widget>[
@@ -382,109 +526,54 @@ class _mainpageState extends State<mainpage>{
 //      ),
 //    );
 
-  }
 
-  Widget press_page(){
-    return Container(
-      padding: EdgeInsets.only(top: 15.0),
-      child: StreamBuilder(
-          stream: pressdata,
-          builder: (context, snapshot){
-
-            if(!snapshot.hasData){
-              return _buildWaitingScreen();
-            } else{
-              List<DocumentSnapshot> documents = snapshot.data.documents;
-
-              return ListView(
-                padding:EdgeInsets.only(top: 20.0),
-                children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
-              );
-            }
-          }),
-    );
-  }
-
-
-  Widget setting_page(){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Setting'),
-      ),
-      floatingActionButton: SpeedDial(
-        // both default to 16
-        marginRight: 18,
-        marginBottom: 20,
-        animatedIcon: AnimatedIcons.menu_close,
-        animatedIconTheme: IconThemeData(size: 22.0),
-        // this is ignored if animatedIcon is non null
-        // child: Icon(Icons.add),
-        //visible: _dialVisible,
-        // If true user is forced to close dial manually
-        // by tapping main button and overlay is not rendered.
-        closeManually: false,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        onOpen: () => print('OPENING DIAL'),
-        onClose: () => print('DIAL CLOSED'),
-        tooltip: 'Speed Dial',
-        heroTag: 'speed-dial-hero-tag',
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 8.0,
-        shape: CircleBorder(),
-        children: [
-          SpeedDialChild(
-              child: Icon(Icons.accessibility),
-              backgroundColor: Colors.red,
-              label: 'First',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => print('FIRST CHILD')
-          ),
-          SpeedDialChild(
-            child: Icon(Icons.brush),
-            backgroundColor: Colors.blue,
-            label: 'Second',
-            labelStyle: TextStyle(fontSize: 18.0),
-            onTap: () => print(maindata),
-          ),
-          SpeedDialChild(
-              child: Icon(Icons.clear),
-              backgroundColor: Colors.red,
-              label: '로그아웃',
-              labelStyle: TextStyle(fontSize: 18.0),
-              onTap: () => {
-                _signOut()
-              }
-          ),
-        ],
-      ),
-    );
-  }
-
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
-
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
-      child: _tabBar,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
-  }
-}
+// setting page speed dial 폐기물
+//floatingActionButton: SpeedDial(
+//        // both default to 16
+//        marginRight: 18,
+//        marginBottom: 20,
+//        animatedIcon: AnimatedIcons.menu_close,
+//        animatedIconTheme: IconThemeData(size: 22.0),
+//        // this is ignored if animatedIcon is non null
+//        // child: Icon(Icons.add),
+//        //visible: _dialVisible,
+//        // If true user is forced to close dial manually
+//        // by tapping main button and overlay is not rendered.
+//        closeManually: false,
+//        curve: Curves.bounceIn,
+//        overlayColor: Colors.black,
+//        overlayOpacity: 0.5,
+//        onOpen: () => print('OPENING DIAL'),
+//        onClose: () => print('DIAL CLOSED'),
+//        tooltip: 'Speed Dial',
+//        heroTag: 'speed-dial-hero-tag',
+//        backgroundColor: Colors.white,
+//        foregroundColor: Colors.black,
+//        elevation: 8.0,
+//        shape: CircleBorder(),
+//        children: [
+//          SpeedDialChild(
+//              child: Icon(Icons.accessibility),
+//              backgroundColor: Colors.red,
+//              label: 'First',
+//              labelStyle: TextStyle(fontSize: 18.0),
+//              onTap: () => print('FIRST CHILD')
+//          ),
+//          SpeedDialChild(
+//            child: Icon(Icons.brush),
+//            backgroundColor: Colors.blue,
+//            label: 'Second',
+//            labelStyle: TextStyle(fontSize: 18.0),
+//            onTap: () => print(maindata),
+//          ),
+//          SpeedDialChild(
+//              child: Icon(Icons.clear),
+//              backgroundColor: Colors.red,
+//              label: '로그아웃',
+//              labelStyle: TextStyle(fontSize: 18.0),
+//              onTap: () => {
+//                _signOut()
+//              }
+//          ),
+//        ],
+//      ),
