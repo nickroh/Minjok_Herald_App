@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:minjok_herald/pages/Home/article.dart';
 
 class DocumentView extends StatelessWidget {
   final DocumentSnapshot documentData;
   DocumentView(this.documentData);
+
+  Widget _Image() {
+    return Image.network(
+      documentData.data["url"],
+      fit: BoxFit.fill,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,7 @@ class DocumentView extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(15),
               onTap: () {
-                print('Card tapped.');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => articlepage(post: documentData)));
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -30,9 +38,13 @@ class DocumentView extends StatelessWidget {
                 ),
                 child: Stack(
                   children: <Widget>[
-                    Image.network(
-                      documentData.data["url"],
-                      fit: BoxFit.fill,
+//                    Image.network(
+//                      documentData.data["url"],
+//                      fit: BoxFit.fill,
+//                    ),
+                    Hero(
+                      tag: documentData.documentID,
+                      child: _Image(),
                     ),
                     ListTile(
                       contentPadding: EdgeInsets.fromLTRB(10,2,10,10),
@@ -64,7 +76,7 @@ class DocumentView extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(15),
               onTap: () {
-                print('Card tapped.');
+                Navigator;
               },
               child: Container(
                 decoration: BoxDecoration(
