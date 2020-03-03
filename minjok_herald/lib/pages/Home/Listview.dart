@@ -52,7 +52,7 @@ class DocumentView extends StatelessWidget {
                       title: Text(
                         documentData.data["title"],
                         style: TextStyle(
-                            fontSize: 17.5, fontWeight: FontWeight.w400),
+                            fontSize: 17.5, fontWeight: FontWeight.w400, fontFamily: 'NanumSquareRound'),
                       ),
 
                     ),

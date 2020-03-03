@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,6 +32,7 @@ class articlepageState extends State<articlepage>{
     print(time);
   }
 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -59,25 +62,38 @@ class articlepageState extends State<articlepage>{
               padding: EdgeInsets.all(16),
               child: Column(
                 children: <Widget>[
-                  Row(
-                    
-                    children: <Widget>[
-
-                      Icon(
-                        Icons.timer
-                      ),
-                      Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 6, 0)
-                      ),
-                      Text(
-                        time,
-                        style: TextStyle(
-
+                  Container(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                            Icons.access_time,
+                            color: Colors.grey,
                         ),
-                      )
-                    ],
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 6, 0)
+                        ),
+                        Text(
+                          time,
+                          style: TextStyle(
+                            color: Colors.grey
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0)
+                  ),
+                  Text(
+                    widget.post.data["title"],
+                    style: TextStyle(
+//                      fontWeight: FontWeight.w600,
+                      fontSize: 25,
+                      fontFamily: 'NanumSquareRound',
+
+                    ),
+                  )
+
                 ],
               )
         )
