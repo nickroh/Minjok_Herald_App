@@ -14,6 +14,21 @@ class articlepage extends StatefulWidget{
 
 class articlepageState extends State<articlepage>{
 
+  DateTime posttime;
+  String time;
+  void initState(){
+    posttime = new DateTime.fromMillisecondsSinceEpoch(widget.post.data["timestamp"]);
+    time = posttime.toString();
+    int tmp;
+    for(int i=0;i<time.length;i++){
+      if(time[i]==" "){
+        tmp = i;
+        break;
+      }
+    }
+    time = time.substring(0,tmp+1 );
+    print(time);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +56,30 @@ class articlepageState extends State<articlepage>{
               ];
             },
             body: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    
+                    children: <Widget>[
 
+                      Icon(
+                        Icons.timer
+                      ),
+                      Padding(
+                          padding: EdgeInsets.fromLTRB(0, 0, 6, 0)
+                      ),
+                      Text(
+                        time,
+                        style: TextStyle(
+
+                        ),
+                      )
+                    ],
+                  ),
+                  
+                ],
+              )
         )
         ),
       )
