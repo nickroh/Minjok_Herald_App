@@ -35,6 +35,10 @@ class articlepageState extends State<articlepage>{
         break;
       }
     }
+    if(comments_data == null){
+      comments_data = [""];
+    }
+
     time = time.substring(0,tmp+1 );
     print(time);
   }
