@@ -15,10 +15,17 @@ class articlepage extends StatefulWidget{
 }
 
 class articlepageState extends State<articlepage>{
-
+  String contents;
   DateTime posttime;
   String time;
+  var comments_data = new List();
+
   void initState(){
+    comments_data = widget.post.data['comments'];
+    contents = widget.post.data["contents"];
+    print(contents);
+    contents = contents.replaceAll("\\n", "\n\n");
+
     posttime = new DateTime.fromMillisecondsSinceEpoch(widget.post.data["timestamp"]);
     time = posttime.toString();
     int tmp;
@@ -38,9 +45,8 @@ class articlepageState extends State<articlepage>{
     // TODO: implement build
     return new Scaffold(
       body: SafeArea(
-        child: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-              return <Widget> [
+        child: CustomScrollView(
+              slivers: <Widget> [
                 SliverAppBar(
                   expandedHeight: 180.0,
                   floating: true,
@@ -55,48 +61,92 @@ class articlepageState extends State<articlepage>{
                         )
                     ),
                   ),
-                )
-              ];
-            },
-            body: Container(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                            Icons.access_time,
-                            color: Colors.grey,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 6, 0)
-                        ),
-                        Text(
-                          time,
-                          style: TextStyle(
-                            color: Colors.grey
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0)
-                  ),
-                  Text(
-                    widget.post.data["title"],
-                    style: TextStyle(
+                ),
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                      SingleChildScrollView(
+                          child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.access_time,
+                                          color: Colors.grey,
+                                        ),
+                                        Padding(
+                                            padding: EdgeInsets.fromLTRB(0, 0, 6, 0)
+                                        ),
+                                        Text(
+                                          time,
+                                          style: TextStyle(
+                                              color: Colors.grey
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0)
+                                  ),
+                                  Text(
+                                    widget.post.data["title"],
+                                    style: TextStyle(
 //                      fontWeight: FontWeight.w600,
-                      fontSize: 25,
-                      fontFamily: 'NanumSquareRound',
+                                      fontSize: 25,
+                                      fontFamily: 'NanumSquareRound',
 
-                    ),
-                  )
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0)
+                                  ),
+                                  Text(
+                                      contents,
+                                    style: TextStyle(
+                                      fontFamily: 'NanumSquareRound',
+                                      fontSize: 17,
+                                      height: 1.5
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 50, 0, 0)
+                                  ),
+                                  ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(8),
+                                    itemCount: comments_data.length,
+                                    itemBuilder: (BuildContext context, int index){
+                                      return ListTile(
+                                        title: Text(comments_data[index]),
+                                      );
+                                    },
 
-                ],
-              )
-        )
+                                  )
+//                                   ListView.builder(
+//                                     padding: const EdgeInsets.all(8),
+//                                        itemCount: comments_data.length,
+//                                        physics: const NeverScrollableScrollPhysics(),
+//                                        itemBuilder: (BuildContext context, index) {
+//                                          return ListTile(
+//                                          title: Text(comments_data[index]),
+//                                        );
+//                                      },
+//                                   )
+  
+                                ],
+                              )
+                          )
+                      )
+                    ])
+
+                )
+              ],
+
+
         ),
       )
     );
