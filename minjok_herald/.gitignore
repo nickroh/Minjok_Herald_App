@@ -31,7 +31,7 @@
 /build/
 
 # Web related
-.json
+
 
 lib/generated_plugin_registrant.dart
 
