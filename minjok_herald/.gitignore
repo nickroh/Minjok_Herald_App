@@ -31,6 +31,8 @@
 /build/
 
 # Web related
+.json
+
 lib/generated_plugin_registrant.dart
 
 # Exceptions to above rules.
