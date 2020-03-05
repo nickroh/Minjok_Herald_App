@@ -4,8 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class articlepage extends StatefulWidget {
   final DocumentSnapshot post;
+  String username;
 
-  articlepage({this.post});
+  articlepage({this.post, this.username});
 
   @override
   articlepageState createState() => articlepageState();
@@ -25,6 +26,9 @@ class articlepageState extends State<articlepage> {
   var comments_data = new List();
 
   void initState() {
+    if (widget.username == null) {
+      widget.username = '익명';
+    }
     comments_data = widget.post.data['comments'];
     contents = widget.post.data["contents"];
     print(contents);
@@ -41,7 +45,7 @@ class articlepageState extends State<articlepage> {
       }
     }
     if (comments_data == null) {
-      comments_data = [""];
+      comments_data = ["*divide*"];
     }
 
     time = time.substring(0, tmp + 1);
@@ -152,12 +156,40 @@ class articlepageState extends State<articlepage> {
                           ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                             itemCount: comments_data.length,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
-                                title: Text(comments_data[index]),
+                              String tmp = comments_data[index];
+                              var arr = tmp.split('*divide*');
+                              return Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                  ),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 0,
+                                    color: Colors.grey[200],
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        ListTile(
+                                          title: Text(
+                                            arr[0],
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                          subtitle: Text(
+                                            arr[1],
+                                            style: TextStyle(height: 2),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
                               );
                             },
                           )
@@ -219,9 +251,11 @@ class articlepageState extends State<articlepage> {
     DocumentReference getcomment =
         Firestore.instance.collection('news').document(widget.post.documentID);
 
-    List<String> cmt = [commenttmp];
+    commenttmp = widget.username + '*divide*' + commenttmp;
+    comments_data.add(commenttmp);
+    print('tmp 값은' + widget.username);
+    getcomment.updateData({'comments': comments_data});
 
-    getcomment.updateData({'comments': FieldValue.arrayUnion(cmt)});
     setState(() {
       refresh();
       comments_data;

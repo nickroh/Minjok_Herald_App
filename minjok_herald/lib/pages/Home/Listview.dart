@@ -4,7 +4,8 @@ import 'package:minjok_herald/pages/Home/article.dart';
 
 class DocumentView extends StatelessWidget {
   final DocumentSnapshot documentData;
-  DocumentView(this.documentData);
+  final String username;
+  DocumentView(this.documentData, this.username);
 
   Widget _Image() {
     return Image.network(

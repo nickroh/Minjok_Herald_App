@@ -270,7 +270,7 @@ class _mainpageState extends State<mainpage>{
                             return ListView(
                               padding:EdgeInsets.only(top: 20.0),
                               children:
-                              documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+                              documents.map((eachDocument) => DocumentView(eachDocument, widget.username)).toList(),
                             );
                           }
                         }),
@@ -421,7 +421,7 @@ class _mainpageState extends State<mainpage>{
 
               return ListView(
                 padding:EdgeInsets.only(top: 20.0),
-                children: documents.map((eachDocument) => DocumentView(eachDocument)).toList(),
+                children: documents.map((eachDocument) => DocumentView(eachDocument , widget.username)).toList(),
               );
             }
           }),
