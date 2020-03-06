@@ -13,8 +13,8 @@ class mainpage extends StatefulWidget {
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
-  final String username;
-  final String userEmail;
+  String username;
+  String userEmail;
 
   @override
   State<StatefulWidget> createState() => new _mainpageState();
@@ -47,8 +47,18 @@ class _mainpageState extends State<mainpage>{
     pressdata = getpress();
     mydata = getmydata();
 
-  }
+    if(widget.username == null){
+      widget.username = ' ';
+    }
+    if(widget.userEmail == null){
+      widget.userEmail=' ';
+    }
 
+
+
+
+    print('current user'+widget.userEmail);
+  }
 
   void dispose() {
     _pageController.dispose();
@@ -292,15 +302,17 @@ class _mainpageState extends State<mainpage>{
               child: ListView(
                 children: <Widget>[
                 UserAccountsDrawerHeader(
-              accountName: new Text(
-                widget.username
-              ),
-              accountEmail: new Text(
-                  widget.userEmail,
-
-                  style: new TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
-              )
+                  accountName: new Text(
+                    widget.username,
+                    style: new TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white, height: 2
+                    ),
+                  ),
+                  accountEmail: new Text(
+                      widget.userEmail,
+                      style: new TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
+                  )
               ),
             ),
             ListTile(
@@ -318,6 +330,15 @@ class _mainpageState extends State<mainpage>{
                 // Update the state of the app
                 // ...
                 // Then close the drawer
+
+                widget.auth.getCurrentUser().then((user) {
+                  if (user != null) {
+                    widget.username = user?.displayName;
+                    widget.userEmail = user?.email;
+                  }
+                });
+                print(widget.userEmail);
+
                 Navigator.pop(context);
               },
             ),

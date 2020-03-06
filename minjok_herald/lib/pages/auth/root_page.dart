@@ -45,6 +45,8 @@ class _RootPageState extends State<RootPage> {
     widget.auth.getCurrentUser().then((user){
       setState(() {
         _userId = user.uid.toString();
+        _username = user?.displayName;
+        _userEmail = user?.email;
       });
     });
     setState(() {
@@ -57,6 +59,8 @@ class _RootPageState extends State<RootPage> {
     setState(() {
       authStatus = AuthStatus.NOT_LOGGED_IN;
       _userId = "";
+      _userEmail = "";
+      _username = "";
     });
   }
 
@@ -83,6 +87,12 @@ class _RootPageState extends State<RootPage> {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
+//          widget.auth.getCurrentUser().then((user){
+//              if (user != null) {
+//                _userId = user?.uid;
+//                _username = user?.displayName;
+//                _userEmail = user?.email;
+//              }});
           return new mainpage(
             userId: _userId,
             auth: widget.auth,
