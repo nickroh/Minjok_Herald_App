@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:minjok_herald/pages/Home/Listview.dart';
 import 'dart:async';
 import 'package:minjok_herald/pages/auth/authentication.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class mainpage extends StatefulWidget {
-  mainpage({Key key, this.auth, this.userId, this.onSignedOut, this.username, this.userEmail})
+  mainpage(
+      {Key key,
+      this.auth,
+      this.userId,
+      this.onSignedOut,
+      this.username,
+      this.userEmail})
       : super(key: key);
 
   final BaseAuth auth;
@@ -20,8 +26,7 @@ class mainpage extends StatefulWidget {
   State<StatefulWidget> createState() => new _mainpageState();
 }
 
-class _mainpageState extends State<mainpage>{
-
+class _mainpageState extends State<mainpage> {
   final Firestore database = Firestore.instance; // firebase 에서 데이터 로드
 //  String activetag = 'main'; // default 페이지 main 그냥 로드
 
@@ -47,33 +52,33 @@ class _mainpageState extends State<mainpage>{
     pressdata = getpress();
     mydata = getmydata();
 
-    if(widget.username == null){
+    if (widget.username == null) {
       widget.username = ' ';
     }
-    if(widget.userEmail == null){
-      widget.userEmail=' ';
+    if (widget.userEmail == null) {
+      widget.userEmail = ' ';
     }
 
-
-
-
-    print('current user'+widget.userEmail);
+    print('current user' + widget.userEmail);
   }
 
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
+
   void _checkEmailVerification() async {
     _isEmailVerified = await widget.auth.isEmailVerified();
     if (!_isEmailVerified) {
       _showVerifyEmailDialog();
     }
   }
-  void _resentVerifyEmail(){
+
+  void _resentVerifyEmail() {
     widget.auth.sendEmailVerification();
     _showVerifyEmailSentDialog();
   }
+
   void _showVerifyEmailDialog() {
     showDialog(
       context: context,
@@ -101,6 +106,7 @@ class _mainpageState extends State<mainpage>{
       },
     );
   }
+
   void _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
@@ -108,7 +114,8 @@ class _mainpageState extends State<mainpage>{
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verify your account"),
-          content: new Text("Link to verify account has been sent to your email"),
+          content:
+              new Text("Link to verify account has been sent to your email"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Dismiss"),
@@ -121,6 +128,7 @@ class _mainpageState extends State<mainpage>{
       },
     );
   }
+
   @override
   _signOut() async {
     try {
@@ -142,7 +150,7 @@ class _mainpageState extends State<mainpage>{
           },
           children: <Widget>[
             main_page(),
-            Container(color: Colors.white,),
+            custom_page(),
             press_page(),
             setting_page()
           ],
@@ -158,29 +166,22 @@ class _mainpageState extends State<mainpage>{
           BottomNavyBarItem(
               title: Text('Legislative'),
               icon: Icon(Icons.check),
-              activeColor: Colors.red
-          ),
+              activeColor: Colors.red),
           BottomNavyBarItem(
               title: Text('Judicial'),
               icon: Icon(Icons.check),
-              activeColor: Colors.green
-          ),
+              activeColor: Colors.green),
           BottomNavyBarItem(
               title: Text('Executive'),
               icon: Icon(Icons.check),
-              activeColor: Colors.blue
-          ),
-          BottomNavyBarItem(
-              title: Text('Setting'),
-              icon: Icon(Icons.settings)
-          ),
+              activeColor: Colors.blue),
+          BottomNavyBarItem(title: Text('Setting'), icon: Icon(Icons.settings)),
         ],
       ),
     );
   }
-  Container article_list(){
 
-  }
+  Container article_list() {}
 
   Widget _buildWaitingScreen() {
     return Scaffold(
@@ -191,37 +192,108 @@ class _mainpageState extends State<mainpage>{
     );
   }
 
-
   Stream<QuerySnapshot> getmain() {
     var firestore = Firestore.instance;
-    return firestore.collection('news').where('tags', arrayContains: 'main').orderBy('timestamp').limit(30).snapshots();
+    return firestore
+        .collection('news')
+        .where('tags', arrayContains: 'main')
+        .orderBy('timestamp')
+        .limit(30)
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getpress() {
     var firestore1 = Firestore.instance;
-    return firestore1.collection('news').where('tags', arrayContains: 'press').orderBy('timestamp').limit(30).snapshots();
+    return firestore1
+        .collection('news')
+        .where('tags', arrayContains: 'press')
+        .orderBy('timestamp')
+        .limit(30)
+        .snapshots();
   }
 
   Stream<QuerySnapshot> getmydata() {
     var firestore1 = Firestore.instance;
-    return firestore1.collection('news').where('tags', arrayContains: 'press').orderBy('timestamp').limit(30).snapshots();
+    return firestore1
+        .collection('news')
+        .where('tags', arrayContains: 'press')
+        .orderBy('timestamp')
+        .limit(30)
+        .snapshots();
   }
 
+  @override
+  Widget custom_page() {
+    return new Scaffold(
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                floating: true,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text("Press 2020-1",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontFamily: 'NanumSquareRound')),
+                    background: Image.network(
+                      "https://previews.123rf.com/images/sebra/sebra1608/sebra160800030/60917196-%EC%A0%95%EC%9D%98%EC%9D%98-%EC%97%AC%EC%8B%A0%EC%83%81.jpg",
+                      fit: BoxFit.cover,
+                    )
+//                        background: Image.asset(
+//                          'assets/test.png',
+//                          fit: BoxFit.cover,
+//                        ),
+                    ),
+              ),
+            ];
+          },
+          body: Container(
+            padding: EdgeInsets.all(3),
+            child: new Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 0.0),
+                  child: StreamBuilder(
+                      stream: pressdata,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return _buildWaitingScreen();
+                        } else {
+                          List<DocumentSnapshot> documents =
+                              snapshot.data.documents;
+
+                          return ListView(
+                            padding: EdgeInsets.only(top: 20.0),
+                            children: documents
+                                .map((eachDocument) =>
+                                    DocumentView(eachDocument, widget.username))
+                                .toList(),
+                          );
+                        }
+                      }),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
-  Widget main_page(){
-
+  Widget main_page() {
     return new Scaffold(
         body: SafeArea(
-
-          child:NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
-//                  leading: IconButton(
-//                      icon: Icon(Icons.menu),
-//                      onPressed: null
-//                  ),
                   expandedHeight: 200.0,
                   floating: true,
                   pinned: true,
@@ -229,10 +301,9 @@ class _mainpageState extends State<mainpage>{
                       centerTitle: true,
                       title: Text("Press 2020-1",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500
-                          )),
+                              color: Colors.black,
+                              fontSize: 18.0,
+                              fontFamily: 'NanumSquareRound')),
                       background: Image.network(
                         "https://blog.malwarebytes.com/wp-content/uploads/2019/12/Washington-DC-Capitol-building-900x506.jpg",
                         fit: BoxFit.cover,
@@ -241,222 +312,206 @@ class _mainpageState extends State<mainpage>{
 //                          'assets/test.png',
 //                          fit: BoxFit.cover,
 //                        ),
-                  ),
-
+                      ),
                 ),
-
               ];
-
             },
             body: Container(
               padding: EdgeInsets.all(3),
               child: new Stack(
                 children: <Widget>[
                   Container(
-//                  padding: EdgeInsets.only(top: 30.0),
-//                  child: RichText(
-//                    text: TextSpan(
-//                        text: 'Minjok Herald ',
-//                        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
-////                children: <TextSpan>[
-////                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
-////                  TextSpan(text: ' world!'),
-////                ],
-//                    ),
-//                  ),
-
-                  ),
-                  Container(
                     padding: EdgeInsets.only(top: 0.0),
                     child: StreamBuilder(
                         stream: maindata,
-                        builder: (context, snapshot){
-
-                          if(!snapshot.hasData){
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
                             return _buildWaitingScreen();
-                          } else{
-                            List<DocumentSnapshot> documents = snapshot.data.documents;
+                          } else {
+                            List<DocumentSnapshot> documents =
+                                snapshot.data.documents;
 
                             return ListView(
-                              padding:EdgeInsets.only(top: 20.0),
-                              children:
-                              documents.map((eachDocument) => DocumentView(eachDocument, widget.username)).toList(),
+                              padding: EdgeInsets.only(top: 20.0),
+                              children: documents
+                                  .map((eachDocument) => DocumentView(
+                                      eachDocument, widget.username))
+                                  .toList(),
                             );
                           }
                         }),
                   ),
                 ],
               ),
-
             ),
           ),
-
-
-          ),
-      drawer:Drawer(
-        // column holds all the widgets in the drawer
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              // ListView contains a group of widgets that scroll inside the drawer
-              child: ListView(
-                children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountName: new Text(
-                    widget.username,
-                    style: new TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white, height: 2
-                    ),
-                  ),
-                  accountEmail: new Text(
-                      widget.userEmail,
-                      style: new TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
-                  )
-              ),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-
-                widget.auth.getCurrentUser().then((user) {
-                  if (user != null) {
-                    widget.username = user?.displayName;
-                    widget.userEmail = user?.email;
-                  }
-                });
-                print(widget.userEmail);
-
-                Navigator.pop(context);
-              },
-            ),
-                ],
-              ),
-            ),
-            // This container holds the align
-            Container(
-              // This align moves the children to the bottom
-                child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    // This container holds all the children that will be aligned
-                    // on the bottom and should not scroll with the above ListView
-                    child: Container(
-                        child: Column(
-                          children: <Widget>[
-                            Divider(),
-                            ListTile(
-                                leading: Icon(Icons.cancel),
-                                title: Text('Log Out'),
-
-                                onTap: (){
-                                  _signOut();
-                                }
-                            ),
-
-
-                            ListTile(
-                                leading: Icon(Icons.help),
-                                title: Text('Help and Feedback'))
-                          ],
-                        )
-                    )
-                )
-            )
-          ],
         ),
-      )
- //     Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-//        child: ListView(
-//          // Important: Remove any padding from the ListView.
-//          padding: EdgeInsets.zero,
-//          children: <Widget>[
-//
-//            UserAccountsDrawerHeader(
-//              accountName: new Text(
-//                widget.username
-//              ),
-//              accountEmail: new Text(
-//                  widget.userEmail,
-//
-//                  style: new TextStyle(
-//                    fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
-//              )
-//              ),
-//            ),
-//            ListTile(
-//              title: Text('Item 1'),
-//              onTap: () {
-//                // Update the state of the app
-//                // ...
-//                // Then close the drawer
-//                Navigator.pop(context);
-//              },
-//            ),
-//            ListTile(
-//              title: Text('Item 2'),
-//              onTap: () {
-//                // Update the state of the app
-//                // ...
-//                // Then close the drawer
-//                Navigator.pop(context);
-//              },
-//            ),
-//
-//          ],
-//        ),
-//
+        drawer: Drawer(
+          // column holds all the widgets in the drawer
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                // ListView contains a group of widgets that scroll inside the drawer
+                child: ListView(
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      accountName: new Text(
+                        widget.username,
+                        style: new TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                            height: 2),
+                      ),
+                      accountEmail: new Text(widget.userEmail,
+                          style: new TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white)),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Profile'),
+                      onTap: () {
+                        // Update the state of the app
+                        // ...
+                        // Then close the drawer
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Item 2'),
+                      onTap: () {
+                        // Update the state of the app
+                        // ...
+                        // Then close the drawer
 
-//        ),
-        );
+                        widget.auth.getCurrentUser().then((user) {
+                          if (user != null) {
+                            widget.username = user?.displayName;
+                            widget.userEmail = user?.email;
+                          }
+                        });
+                        print(widget.userEmail);
 
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              // This container holds the align
+              Container(
+                  // This align moves the children to the bottom
+                  child: Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      // This container holds all the children that will be aligned
+                      // on the bottom and should not scroll with the above ListView
+                      child: Container(
+                          child: Column(
+                        children: <Widget>[
+                          Divider(),
+                          ListTile(
+                              leading: Icon(Icons.cancel),
+                              title: Text('Log Out'),
+                              onTap: () {
+                                _signOut();
+                              }),
+                          ListTile(
+                              leading: Icon(Icons.help),
+                              title: Text('Help and Feedback'),
+                              onTap:(){
+                                _launchURL();
+                              }
+                          ),
 
-
+                        ],
+                      ))))
+            ],
+          ),
+        ));
   }
 
-  Widget press_page(){
-    return Container(
-      padding: EdgeInsets.only(top: 15.0),
-      child: StreamBuilder(
-          stream: pressdata,
-          builder: (context, snapshot){
+  Widget press_page() {
+    return new Scaffold(
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                floating: true,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text("Press 2020-1",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontFamily: 'NanumSquareRound')),
+                    background: Image.network(
+                      "https://previews.123rf.com/images/bigmouse/bigmouse1705/bigmouse170500055/77770092-cartoon-white-house-building-vector.jpg",
+                      fit: BoxFit.cover,
+                    )
+//                        background: Image.asset(
+//                          'assets/test.png',
+//                          fit: BoxFit.cover,
+//                        ),
+                    ),
+              ),
+            ];
+          },
+          body: Container(
+            padding: EdgeInsets.all(3),
+            child: new Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 0.0),
+                  child: StreamBuilder(
+                      stream: pressdata,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return _buildWaitingScreen();
+                        } else {
+                          List<DocumentSnapshot> documents =
+                              snapshot.data.documents;
 
-            if(!snapshot.hasData){
-              return _buildWaitingScreen();
-            } else{
-              List<DocumentSnapshot> documents = snapshot.data.documents;
-
-              return ListView(
-                padding:EdgeInsets.only(top: 20.0),
-                children: documents.map((eachDocument) => DocumentView(eachDocument , widget.username)).toList(),
-              );
-            }
-          }),
-    );
-  }
-
-
-  Widget setting_page(){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Customize'),
+                          return ListView(
+                            padding: EdgeInsets.only(top: 20.0),
+                            children: documents
+                                .map((eachDocument) =>
+                                    DocumentView(eachDocument, widget.username))
+                                .toList(),
+                          );
+                        }
+                      }),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-//
     );
+  }
+
+  Widget setting_page() {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Customize'),
+        ),
+        body: Image.asset('assets/comming_soon.png')
+
+//
+        );
+  }
+
+  _launchURL() async {
+    const url = 'https://www.facebook.com/profile.php?id=100014804491301';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
 }
@@ -484,7 +539,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
-
 
 // mainpage 위젯 폐기물
 //    return new Scaffold(
@@ -547,7 +601,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 //      ),
 //    );
 
-
 // setting page speed dial 폐기물
 //floatingActionButton: SpeedDial(
 //        // both default to 16
@@ -598,3 +651,64 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 //          ),
 //        ],
 //      ),
+
+//Container(
+//                  padding: EdgeInsets.only(top: 30.0),
+//                  child: RichText(
+//                    text: TextSpan(
+//                        text: 'Minjok Herald ',
+//                        style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700, color: Colors.black)
+////                children: <TextSpan>[
+////                  TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
+////                  TextSpan(text: ' world!'),
+////                ],
+//                    ),
+//                  ),
+
+//),
+
+//     Drawer(
+// Add a ListView to the drawer. This ensures the user can scroll
+// through the options in the drawer if there isn't enough vertical
+// space to fit everything.
+//        child: ListView(
+//          // Important: Remove any padding from the ListView.
+//          padding: EdgeInsets.zero,
+//          children: <Widget>[
+//
+//            UserAccountsDrawerHeader(
+//              accountName: new Text(
+//                widget.username
+//              ),
+//              accountEmail: new Text(
+//                  widget.userEmail,
+//
+//                  style: new TextStyle(
+//                    fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white
+//              )
+//              ),
+//            ),
+//            ListTile(
+//              title: Text('Item 1'),
+//              onTap: () {
+//                // Update the state of the app
+//                // ...
+//                // Then close the drawer
+//                Navigator.pop(context);
+//              },
+//            ),
+//            ListTile(
+//              title: Text('Item 2'),
+//              onTap: () {
+//                // Update the state of the app
+//                // ...
+//                // Then close the drawer
+//                Navigator.pop(context);
+//              },
+//            ),
+//
+//          ],
+//        ),
+//
+
+//        ),
