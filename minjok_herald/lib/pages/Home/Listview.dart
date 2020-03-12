@@ -30,7 +30,7 @@ class DocumentView extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(15),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => articlepage(post: documentData)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => articlepage(post: documentData, username: username,)));
               },
               child: Container(
                 decoration: BoxDecoration(

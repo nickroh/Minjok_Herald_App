@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:minjok_herald/pages/auth/authentication.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:minjok_herald/pages/profile/profilepage.dart';
 
 class mainpage extends StatefulWidget {
   mainpage(
@@ -295,7 +296,7 @@ class _mainpageState extends State<mainpage> {
               return <Widget>[
                 SliverAppBar(
                   expandedHeight: 200.0,
-                  floating: true,
+                  floating: false,
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
@@ -373,13 +374,11 @@ class _mainpageState extends State<mainpage> {
                       leading: Icon(Icons.person),
                       title: Text('Profile'),
                       onTap: () {
-                        // Update the state of the app
-                        // ...
-                        // Then close the drawer
-                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProfilePage(profile: widget.auth)));
                       },
                     ),
                     ListTile(
+                      leading: Icon(Icons.all_inclusive),
                       title: Text('Item 2'),
                       onTap: () {
                         // Update the state of the app

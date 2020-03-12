@@ -26,12 +26,12 @@ class articlepageState extends State<articlepage> {
   var comments_data = new List();
 
   void initState() {
+    print(widget.username);
     if (widget.username == null) {
       widget.username = '익명';
     }
     comments_data = widget.post.data['comments'];
     contents = widget.post.data["contents"];
-    print(contents);
     contents = contents.replaceAll("\\n", "\n\n");
     myFocusNode = FocusNode();
     posttime =
@@ -47,7 +47,6 @@ class articlepageState extends State<articlepage> {
     if (comments_data == null) {
       comments_data = ["*divide*"];
     }
-
     time = time.substring(0, tmp + 1);
     print(time);
   }
@@ -100,7 +99,7 @@ class articlepageState extends State<articlepage> {
           slivers: <Widget>[
             SliverAppBar(
               expandedHeight: 180.0,
-              floating: true,
+              floating: false,
               pinned: false,
               flexibleSpace: FlexibleSpaceBar(
                 background: Hero(
