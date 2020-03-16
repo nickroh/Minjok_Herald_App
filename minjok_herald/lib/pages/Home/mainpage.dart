@@ -217,7 +217,7 @@ class _mainpageState extends State<mainpage> {
     var firestore1 = Firestore.instance;
     return firestore1
         .collection('news')
-        .where('tags', arrayContains: 'press')
+        .where('tags', arrayContains: 'custom')
         .orderBy('timestamp')
         .limit(30)
         .snapshots();
