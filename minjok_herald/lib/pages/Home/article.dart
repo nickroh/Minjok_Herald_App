@@ -203,8 +203,10 @@ class articlepageState extends State<articlepage> {
 //                                      },
 //                                   )
                         ],
-                      )))
+                      ))),
+
             ]))
+
           ],
         ),
       ),
@@ -220,7 +222,8 @@ class articlepageState extends State<articlepage> {
             }
           });
         },
-        label: Text(message),
+        //label: Text(message),
+        label: Text(''),
         icon: Icon(Icons.comment),
         backgroundColor: Colors.lightGreen,
       ),
