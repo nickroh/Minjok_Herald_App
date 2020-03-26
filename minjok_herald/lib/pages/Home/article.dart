@@ -139,7 +139,7 @@ class articlepageState extends State<articlepage> {
                             style: TextStyle(
 //                      fontWeight: FontWeight.w600,
                               fontSize: 25,
-                              fontFamily: 'NanumSquareRound',
+                              fontFamily: 'THE_Nyuseusokbo',
                             ),
                           ),
                           Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
@@ -223,7 +223,7 @@ class articlepageState extends State<articlepage> {
           });
         },
         //label: Text(message),
-        label: Text(''),
+        label: Text('comment'),
         icon: Icon(Icons.comment),
         backgroundColor: Colors.lightGreen,
       ),

@@ -33,6 +33,11 @@ class _mainpageState extends State<mainpage> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  
+  String first="https://cdn.dribbble.com/users/970021/screenshots/4644255/job-banners.png";
+  String second="https://cdn.dribbble.com/users/970021/screenshots/4644255/job-banners.png";
+  String third="https://cdn.dribbble.com/users/970021/screenshots/4644255/job-banners.png";
+
   Stream maindata;
   Stream pressdata;
   Stream mydata;
@@ -46,6 +51,7 @@ class _mainpageState extends State<mainpage> {
   void initState() {
     super.initState();
 
+    _initwallpaper();
     _checkEmailVerification();
     _pageController = PageController();
 
@@ -63,6 +69,7 @@ class _mainpageState extends State<mainpage> {
     print('current user' + widget.userEmail);
   }
 
+  
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -222,6 +229,16 @@ class _mainpageState extends State<mainpage> {
         .limit(30)
         .snapshots();
   }
+  void _initwallpaper() async{
+    DocumentReference wallpaper =
+    Firestore.instance.collection('images').document('url');
+
+    DocumentSnapshot url = await wallpaper.get();
+
+    first = url.data['first'];
+    second = url.data['second'];
+    third = url.data['third'];
+  }
 
   @override
   Widget custom_page() {
@@ -242,7 +259,7 @@ class _mainpageState extends State<mainpage> {
                             fontSize: 18.0,
                             fontFamily: 'NanumSquareRound')),
                     background: Image.network(
-                      "https://previews.123rf.com/images/sebra/sebra1608/sebra160800030/60917196-%EC%A0%95%EC%9D%98%EC%9D%98-%EC%97%AC%EC%8B%A0%EC%83%81.jpg",
+                      third ,
                       fit: BoxFit.cover,
                     )
 //                        background: Image.asset(
@@ -260,7 +277,7 @@ class _mainpageState extends State<mainpage> {
                 Container(
                   padding: EdgeInsets.only(top: 0.0),
                   child: StreamBuilder(
-                      stream: pressdata,
+                      stream: mydata,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return _buildWaitingScreen();
@@ -306,7 +323,7 @@ class _mainpageState extends State<mainpage> {
                               fontSize: 18.0,
                               fontFamily: 'NanumSquareRound')),
                       background: Image.network(
-                        "https://blog.malwarebytes.com/wp-content/uploads/2019/12/Washington-DC-Capitol-building-900x506.jpg",
+                        first,
                         fit: BoxFit.cover,
                       )
 //                        background: Image.asset(
@@ -449,7 +466,7 @@ class _mainpageState extends State<mainpage> {
                             fontSize: 18.0,
                             fontFamily: 'NanumSquareRound')),
                     background: Image.network(
-                      "https://previews.123rf.com/images/bigmouse/bigmouse1705/bigmouse170500055/77770092-cartoon-white-house-building-vector.jpg",
+                      second,
                       fit: BoxFit.cover,
                     )
 //                        background: Image.asset(

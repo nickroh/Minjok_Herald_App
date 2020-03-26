@@ -75,6 +75,10 @@ flutter:
      - family: NanumSquareRoundLight
        fonts:
          - asset: fonts/NanumSquareRoundL.ttf
+     - family: THE_Nyuseusokbo
+       fonts:
+         - asset: fonts/THE_Nyuseusokbo.ttf
+
 
   #
   # For details regarding fonts from package dependencies,
