@@ -8,7 +8,7 @@
     
     
    <a href = "https://play.google.com/store/apps/details?id=com.minjokherald.kmla.minjok_herald&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target='_blank' rel='noopener'>
-<img src = "https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="75px" alt = "it on Google Play">
+<img src = "https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="90px" alt = "it on Google Play">
 </a>
    
  
