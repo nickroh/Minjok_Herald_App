@@ -138,7 +138,7 @@ class articlepageState extends State<articlepage> {
                             widget.post.data["title"],
                             style: TextStyle(
 //                      fontWeight: FontWeight.w600,
-                              fontSize: 25,
+                              fontSize: 30,
                               fontFamily: 'THE_Nyuseusokbo',
                             ),
                           ),
@@ -146,8 +146,8 @@ class articlepageState extends State<articlepage> {
                           Text(
                             contents,
                             style: TextStyle(
-                                fontFamily: 'NanumSquareRound',
-                                fontSize: 17,
+                                fontFamily: 'NanumBarunGothic',
+                                fontSize: 16,
                                 height: 1.5),
                           ),
                           Padding(padding: EdgeInsets.fromLTRB(0, 50, 0, 0)),

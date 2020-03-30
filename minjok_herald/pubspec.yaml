@@ -79,6 +79,14 @@ flutter:
        fonts:
          - asset: fonts/THE_Nyuseusokbo.ttf
 
+     - family: NanumSquareRoundBold
+       fonts:
+         - asset: fonts/NanumSquareRoundB.ttf
+     - family: NanumBarunGothic
+       fonts:
+         - asset: fonts/NanumBarunGothic.ttf
+
+
 
   #
   # For details regarding fonts from package dependencies,

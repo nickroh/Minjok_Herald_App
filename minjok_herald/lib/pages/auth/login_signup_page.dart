@@ -52,8 +52,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         }
         if (_formMode == FormMode.SIGNUP){
           userId = await widget.auth.signUp(_email, _password);
-          widget.auth.sendEmailVerification();
-          _showVerifyEmailSentDialog();
+          //widget.auth.sendEmailVerification();
+          //_showVerifyEmailSentDialog();
           print('Signed up user: $userId');
           print('test');
         }
