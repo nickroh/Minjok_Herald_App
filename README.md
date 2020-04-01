@@ -10,7 +10,8 @@
    <a href = "https://play.google.com/store/apps/details?id=com.minjokherald.kmla.minjok_herald&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1" target='_blank' rel='noopener'>
 <img src = "https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="90px" alt = "it on Google Play">
 </a>
-   
+<a href = "https://minjok-herald-uploader.firebaseapp.com"> 업로더 </a>
+ 
  
     
 민사고 영자 신문 동아리 민족헤럴드의 뉴스 앱입니다
