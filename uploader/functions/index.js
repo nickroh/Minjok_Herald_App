@@ -20,6 +20,11 @@ app.get('/',(request, response)=>{
     response.render('index',{layout: 'default', template: 'home-template'});
 })
 
+app.get('/signup',(request, response)=>{
+    response.set('Cache-Control','public, max-age=300, s-maxage=600');
+    response.render('signup',{layout: 'default', template: 'home-template'});
+})
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
