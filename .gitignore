@@ -21,3 +21,5 @@ doc/api/
 *.js.map
 
 google-services.json
+
+.css
