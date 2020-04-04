@@ -15,5 +15,7 @@
  
  
     
-민사고 영자 신문 동아리 민족헤럴드의 뉴스 앱입니다
+Minjok Herald & Press
+
+http://bitly.kr/G2BLA108j
 
