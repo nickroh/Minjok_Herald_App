@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Minjok Herald</title>
+
+		<meta charset='utf-8'/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+	
+		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/util_mainpage.css">
+		<link rel="stylesheet" type="text/css" href="css/main_mainpage.css">
+	</head>
+	<body>
+		<div class="container-contact100">
+
+			<div class="wrap-contact100">
+				<form class="contact100-form validate-form">
+					<span class="contact100-form-title">
+						Minjok Herald
+					</span>
+	
+					<div class="wrap-input100 validate-input" data-validate="Please enter the title">
+						<input class="input100" type="text" name="title" placeholder="Title">
+						<span class="focus-input100"></span>
+					</div>
+	
+					<div class="wrap-input100 validate-input" data-validate = "Please enter your name">
+						<input class="input100" type="text" name="name" placeholder="name">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Please enter the tag: main, custom, press">
+						<input class="input100" type="text" name="tag" placeholder="tag">
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Please enter the image adress">
+						<input class="input100" type="text" name="image" placeholder="Image URL">
+						<span class="focus-input100"></span>
+					</div>
+	
+					<div class="wrap-input100 validate-input" data-validate = "Please enter the content">
+						<textarea class="input100" name="message" placeholder="Content"></textarea>
+						<span class="focus-input100"></span>
+					</div>
+	
+					<div class="container-contact100-form-btn">
+						<button class="contact100-form-btn">
+							<span>
+								<i class="fa fa-paper-plane-o m-r-6" aria-hidden="true"></i>
+								Submit
+							</span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="dropDownSelect1"></div>
+	</body>
+
+	
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src='js/autosize.js'></script>
+	<script src='js/mainpage.js'></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+	<script>
+		
+		autosize(document.querySelectorAll('textarea'));
+	</script>
+</html>
