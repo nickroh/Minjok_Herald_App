@@ -15,57 +15,65 @@
 		<div class="container-contact100">
 
 			<div class="wrap-contact100">
-				<form class="contact100-form validate-form">
+				
 					<span class="contact100-form-title">
 						Minjok Herald
 					</span>
 	
 					<div class="wrap-input100 validate-input" data-validate="Please enter the title">
-						<input class="input100" type="text" name="title" placeholder="Title">
+						<input class="input100" type="text" id="title" placeholder="Title">
 						<span class="focus-input100"></span>
 					</div>
 	
 					<div class="wrap-input100 validate-input" data-validate = "Please enter your name">
-						<input class="input100" type="text" name="name" placeholder="name">
+						<input class="input100" type="text" id="name" placeholder="name">
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Please enter the tag: main, custom, press">
-						<input class="input100" type="text" name="tag" placeholder="tag">
+						<input class="input100" type="text" id="tag" placeholder=" main or custom or press">
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Please enter the image adress">
-						<input class="input100" type="text" name="image" placeholder="Image URL">
+						<input class="input100" type="text" id="image" placeholder="Image URL">
 						<span class="focus-input100"></span>
 					</div>
 	
 					<div class="wrap-input100 validate-input" data-validate = "Please enter the content">
-						<textarea class="input100" name="message" placeholder="Content"></textarea>
+						<textarea class="input100" id="content" placeholder="Content"></textarea>
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Please enter the key">
+						<input class="input100" type="text" id="key" placeholder="key">
 						<span class="focus-input100"></span>
 					</div>
 	
 					<div class="container-contact100-form-btn">
-						<button class="contact100-form-btn">
+						<button class="contact100-form-btn" id="submit">
 							<span>
 								<i class="fa fa-paper-plane-o m-r-6" aria-hidden="true"></i>
-								Submit
+								Submit!
 							</span>
 						</button>
 					</div>
-				</form>
+				
+				
 			</div>
 		</div>
 		<div id="dropDownSelect1"></div>
+		<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+  		<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+		<script src='js/uploader.js'></script>
 	</body>
 
 	
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src='js/autosize.js'></script>
 	<script src='js/mainpage.js'></script>
+	
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-	<script>
-		
+	<script>	
 		autosize(document.querySelectorAll('textarea'));
 	</script>
 </html>

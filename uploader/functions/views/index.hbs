@@ -33,7 +33,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="/check" method="POST",>
 					<span class="login100-form-title p-b-26">
 						Minjok Herald
 					</span>
@@ -42,22 +42,22 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input class="input100" type="text" id="Email">
-						<span class="focus-input100" data-placeholder="Email"></span>
+						<input class="input100" type="text" name="Id">
+						<span class="focus-input100" data-placeholder="ID"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" id="Pass">
+						<input class="input100" type="password" name="Pass">
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button onclick="login()" class="login100-form-btn" id="Login">
+							<button class="login100-form-btn" type="submit">
 								Login
 							</button>
 						</div>
@@ -65,12 +65,9 @@
 
 					<div class="text-center p-t-115">
 						<span class="txt1">
-							Don’t have an account?
+							
 						</span>
 
-						<a class="txt2" href="/signup" id="Signup">
-							Sign Up
-						</a>
 					</div>
 				</form>
 			</div>
@@ -96,12 +93,9 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
-  	<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-	<script src="js/app.js"></script>
+	
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
-
+	
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->

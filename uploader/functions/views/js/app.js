@@ -1,41 +1,43 @@
-// Your web app's Firebase configuration
-	var firebaseConfig = {
-		apiKey: "AIzaSyAnovu3lcdiNmMMzS7xi1WM2LssMPFKSMk",
-		authDomain: "minjok-herald.firebaseapp.com",
-		databaseURL: "https://minjok-herald.firebaseio.com",
-		projectId: "minjok-herald",
-		storageBucket: "minjok-herald.appspot.com",
-		messagingSenderId: "701541587970",
-		appId: "1:701541587970:web:6321ea25bd8c8552549b1b",
-		measurementId: "G-ZLQJJPQCLG"
-	};
-  // Initialize Firebase
+// // Your web app's Firebase configuration
+// 	var firebaseConfig = {
+// 		apiKey: "AIzaSyAnovu3lcdiNmMMzS7xi1WM2LssMPFKSMk",
+// 		authDomain: "minjok-herald.firebaseapp.com",
+// 		databaseURL: "https://minjok-herald.firebaseio.com",
+// 		projectId: "minjok-herald",
+// 	};
+// 	// Initialize Firebase
+// 	 firebase.initializeApp(firebaseConfig);
+		  
+
+// const txtEmail = document.getElementById('Email')
+// const txtPassword = document.getElementById('Pass')
+// const btnLogin = document.getElementById('Login')
+// const btnSignup = document.getElementById('Signup')
+
+
+
+// firebase.auth().onAuthStateChanged(function(user){
+//   if(user){
+//     var user = firebase.auth().currentUser
+
+//     if(user != null){
+//       alert('logged in');
+//     }
+//   }else{
+//     alert('not logged in');
+//   }
+// })
   
-  firebase.initializeApp(firebaseConfig);
-  
 
-const txtEmail = document.getElementById('Email')
-const txtPassword = document.getElementById('Pass')
-const btnLogin = document.getElementById('Login')
-const btnSignup = document.getElementById('Signup')
 
-firebase.auth().onAuthStateChanged(firebaseUser => {
-  if(firebaseUser){
-    console.log(firebaseUser)
-  }else{
-    console.log('not logged in')
-  }
-});
+// function login(){
+//   const email = txtEmail.value;
+//   const pass = txtPassword.value;
+ 
+//   firebase.auth().signInWithEmailAndPassword(email,pass)
+//   alert('log');
+// }     
 
-function login(){
-  const email = txtEmail.value;
-  const pass = txtPassword.value;
-  const auth = firebase.auth();
-
-  const promise = auth.signInWithEmailAndPassword(email,pass);
-  promise.catch(e => console.log(e.message))
-}     
-        
     
 
     
