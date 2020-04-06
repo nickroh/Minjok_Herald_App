@@ -42,6 +42,8 @@
     
     console.log(data);
     db.collection('news').add(data);
+
+    location.reload();
   })
 
 
