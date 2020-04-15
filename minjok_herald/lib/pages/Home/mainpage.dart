@@ -6,6 +6,7 @@ import 'package:minjok_herald/pages/auth/authentication.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:minjok_herald/pages/profile/profilepage.dart';
+import 'package:flutter/scheduler.dart' ;
 
 class mainpage extends StatefulWidget {
   mainpage(
@@ -515,9 +516,20 @@ class _mainpageState extends State<mainpage> {
         appBar: AppBar(
           title: Text('Customize'),
         ),
-        body: Image.asset('assets/comming_soon.png')
+        body: ListView(
+          padding: EdgeInsets.only(top: 20.0),
+          children: <Widget>[
+            CheckboxListTile(
+              title: const Text('말루'),
+              value: timeDilation != 1.0,
+              onChanged: (bool value) {
+                setState(() { timeDilation = value ? 1.0 : 1.0; });
+              },
+              secondary: const Icon(Icons.hourglass_empty),
+            ),
+          ],
+        )
 
-//
         );
   }
 
