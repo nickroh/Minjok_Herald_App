@@ -527,6 +527,15 @@ class _mainpageState extends State<mainpage> {
               },
               secondary: const Icon(Icons.hourglass_empty),
             ),
+            CheckboxListTile(
+              title: const Text('코드클럽'),
+              value: timeDilation != 1.0,
+              onChanged: (bool value){
+                setState(() {
+                  timeDilation = value ? 1.0 :1.0;
+                });
+              },
+            )
           ],
         )
 
